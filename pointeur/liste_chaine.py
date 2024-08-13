@@ -65,7 +65,11 @@ class ListeChainee :
         return self 
     
     def __radd__ (self, plus) : 
-        return self.__add__ (plus)           
+        self.insertion (plus)   
+        return self  
+    
+    def __getitem__ (self, index) : 
+        pass     
              
     def ajouter (self, valeur) : 
         ele = Noeud (valeur)
@@ -96,6 +100,12 @@ class ListeChainee :
         else : 
             self.tete = ele 
     
+    def supprimer (self, item) : 
+        pass 
+    
+    def find (self, item) : 
+        pass 
+    
     def reverse (self) : 
         pass 
     
@@ -104,6 +114,6 @@ class ListeChainee :
    
 if __name__ == "__main__" :
     chaine = ListeChainee (Noeud (1, Noeud (2, Noeud (4, Noeud (5)))))
-    # chainette = ListeChainee (Noeud(0, Noeud(-1, Noeud(-2))))
-    # print ([1,2,3,4,55] + chaine)
+    chainette = ListeChainee (Noeud(0, Noeud(-1, Noeud(-2))))
+    print ([1,2,3,4,55] + chaine)
     
