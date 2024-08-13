@@ -19,23 +19,13 @@ class ListeChainee :
     
     def __str__ (self) : 
         if self.tete == None :
-            return None
+            return repr(None)
         current = self.tete
         ch = f"{current.valeur} -> "
         while current.suivant != None : 
             current = current.suivant
             ch += f"{current.valeur} -> "
         return ch [:-4]
-                    
-    def ajouter (self, valeur) : 
-        ele = Noeud (valeur)
-        if self.tete == None : 
-            self.tete = ele
-        else : 
-            current = self.tete 
-            while current.suivant != None : 
-                current = current.suivant     
-            current.suivant = ele
     
     def __iter__ (self) : 
         if self.tete != None :  
@@ -62,7 +52,49 @@ class ListeChainee :
         return compteur 
     
     def __add__ (self, plus) : 
-        pass 
+        if type(plus) == ListeChainee and plus.tete != None: 
+            if self.tete != None : 
+                current = self.tete 
+                while current.suivant != None : 
+                    current = current.suivant
+                current.suivant = plus.tete
+            else : 
+                self.tete = plus.tete
+        else : 
+            self.ajouter (plus)    
+        return self 
+    
+    def __radd__ (self, plus) : 
+        return self.__add__ (plus)           
+             
+    def ajouter (self, valeur) : 
+        ele = Noeud (valeur)
+        if self.tete == None : 
+            self.tete = ele
+        else : 
+            current = self.tete 
+            while current.suivant != None : 
+                current = current.suivant     
+            current.suivant = ele 
+    
+    def insertion (self, item, index = 0) :
+        ele = Noeud (item)
+        if self.tete != None :
+            if not (-len(self) < index <= len (self)) : 
+                raise IndexError ("Error : index out of range !")
+            if index < 0 : 
+                index += len (self) 
+            if index == 0 : 
+                ele.suivant, self.tete = self.tete, ele
+            current = self.tete 
+            compteur = 1
+            while current.suivant != None and compteur != index : 
+                current = current.suivant 
+                compteur += 1
+                if compteur == index : 
+                    ele.suivant, current.suivant = current.suivant, ele
+        else : 
+            self.tete = ele 
     
     def reverse (self) : 
         pass 
@@ -71,13 +103,7 @@ class ListeChainee :
         pass
    
 if __name__ == "__main__" :
-    chaine = ListeChainee (Noeud (5, Noeud (4, Noeud (3, Noeud (2)))))
-    print (chaine)
-    chaine.ajouter (1)
-    print (chaine)
-    for i in chaine : 
-        print (i) 
-    print (5 in chaine)
-    print (9 in chaine)
-    print (1 in chaine)
-    print (len(chaine))
+    chaine = ListeChainee (Noeud (1, Noeud (2, Noeud (4, Noeud (5)))))
+    # chainette = ListeChainee (Noeud(0, Noeud(-1, Noeud(-2))))
+    # print ([1,2,3,4,55] + chaine)
+    
