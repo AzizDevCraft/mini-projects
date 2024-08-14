@@ -81,10 +81,23 @@ class ListDoublementChainee :
                 current.valeur = new
                 break
             current = current.suivant
-            
     
     def __delitem__ (self, index) : 
-        pass 
+        if type (index) != int : 
+            raise TypeError ("Erreur : TypeError (l'indice doit etre un entier)")  
+        if not (-len(self) <= index < len (self)) : 
+            raise IndexError ("Error : index out of range !")
+        if index < 0 : 
+            index += len (self) 
+        if index == 0 : 
+            self.tete = self.tete.suivant 
+        elif self [index] == self.queue.valeur :
+            self.queue = self.queue.prec 
+        else : 
+            current = self.tete 
+            while current.suivant != self.queue.suivant and current.suivant.valeur != self [index] : 
+                current = current.suivant 
+            current.suivant = current.suivant.suivant  
     
     def ajouter (self, value) : 
         ele = Noeud (value)
@@ -130,7 +143,12 @@ class ListDoublementChainee :
             index += 1 
     
     def reverse (self) : 
-        pass 
+        new = ListDoublementChainee ()
+        for i in range (len(self)-1, -1, -1) :
+            new.ajouter (self[i])
+        self.tete = new.tete
+        self.queue = new.queue 
+        return self 
     
 if __name__ == "__main__" : 
     chaine = ListDoublementChainee ()
@@ -139,12 +157,16 @@ if __name__ == "__main__" :
     chaine.ajouter(3)
     chaine.ajouter(2)
     chaine.ajouter(1)
-    print (chaine)
     chainette = ListDoublementChainee ()
     chainette.ajouter (6)
     chainette.ajouter (7)
     chainette.ajouter (8)
-    print (chainette)
-    print (chaine + chainette)
+    chaine + chainette
+    print (chaine.reverse ())
+    del chaine [-1] # un probleme ici 
+    print (chaine)
+    
+    
+    
     
     
