@@ -141,17 +141,19 @@ class ListeChainee :
             index += 1
     
     def reverse (self) : 
-        for i in range (len(self)) : 
-            self.ajouter (self[0])
-            print (self)
-            self.supprimer (self[0])
-            print (self)
+        new = ListeChainee ()
+        for i in range (len(self)-1, -1, -1) :
+            new.ajouter (self[i])
+        return new 
+            
 
 if __name__ == "__main__" :
+    """cette espace est réserver pour les testes"""
     chaine = ListeChainee (Noeud (1, Noeud (2, Noeud (4, Noeud (5)))))
-    #chainette = ListeChainee (Noeud(0, Noeud(-1, Noeud(-2))))
-    #chaine + chainette
+    chainette = ListeChainee (Noeud(0, Noeud(-1, Noeud(-2))))
+    chaine + chainette
     print (chaine)
     print (chaine.reverse ())
+    print ([1,2,3] + chaine)
     
     
