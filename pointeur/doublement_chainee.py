@@ -22,10 +22,10 @@ class ListDoublementChainee :
     def __iter__ (self) : 
         if self.tete != None : 
             current = self.tete 
-            while current != self.queue.suivant : 
+            while current != None : 
                 yield current.valeur
-                current = current.suivant  
-    
+                current = current.suivant
+                
     def __contains__ (self, value) : 
         if self.tete != None : 
             if self.tete.valeur == value  or self.queue.valeur == value: 
@@ -45,6 +45,7 @@ class ListDoublementChainee :
         if type(plus) == ListDoublementChainee and plus.tete != None: 
             if self.tete != None : 
                 self.queue.suivant = plus.tete
+                plus.tete.prec = self.queue
                 self.queue = plus.queue
             else : 
                 self.tete = plus.tete
@@ -91,11 +92,12 @@ class ListDoublementChainee :
             index += len (self) 
         if index == 0 : 
             self.tete = self.tete.suivant 
-        elif self [index] == self.queue.valeur :
-            self.queue = self.queue.prec 
+        elif index == len(self) - 1 :
+            self.queue = self.queue.prec
+            self.queue.suivant = None 
         else : 
             current = self.tete 
-            while current.suivant != self.queue.suivant and current.suivant.valeur != self [index] : 
+            while current.suivant != None and current.suivant.valeur != self [index] : 
                 current = current.suivant 
             current.suivant = current.suivant.suivant  
     
@@ -106,8 +108,9 @@ class ListDoublementChainee :
             self.queue = ele
         else : 
             self.queue.suivant = ele
+            ele.prec = self.queue
             self.queue = ele
-    
+
     def insertion (self, item, index = 0) : 
         ele = Noeud (item)
         if self.tete != None :
@@ -116,16 +119,20 @@ class ListDoublementChainee :
             if index < 0 : 
                 index += (len (self) + 1)
             if index == 0 :
-                ele.suivant, self.tete = self.tete, ele
+                ele.suivant  = self.tete
+                self.tete.prec = ele 
+                self.tete = ele
             elif index == len(self) : 
-                self.queue.suivant = ele
-                self.queue = ele 
+                self.ajouter (item)
             else : 
                 current = self.tete 
                 compteur = 1
                 while current.suivant != None or compteur != index :
                     if compteur == index : 
-                        ele.suivant, current.suivant = current.suivant, ele 
+                        ele.suivant  = current.suivant 
+                        current.suivant.prec = ele
+                        ele.prec = current
+                        current.suivant = ele
                         break
                     current = current.suivant 
                     compteur += 1
@@ -151,6 +158,7 @@ class ListDoublementChainee :
         return self 
     
 if __name__ == "__main__" : 
+    """cette espace est reserve au essai !"""
     chaine = ListDoublementChainee ()
     chaine.ajouter(5)
     chaine.ajouter(4)
@@ -162,10 +170,7 @@ if __name__ == "__main__" :
     chainette.ajouter (7)
     chainette.ajouter (8)
     chaine + chainette
-    print (chaine.reverse ())
-    del chaine [-1] # un probleme ici 
     print (chaine)
-    
     
     
     
