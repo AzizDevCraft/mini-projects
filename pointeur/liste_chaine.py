@@ -101,19 +101,38 @@ class ListeChainee :
             self.tete = ele 
     
     def supprimer (self, item) : 
-        pass 
+        try : 
+            assert self.tete != None and item in self 
+        except AssertionError : 
+            print ("Erreur : l'element que vous voulez supprimez n'existe pas !") 
+        else : 
+            if self.tete.valeur == item : 
+                self.tete = self.tete.suivant 
+            else :
+                current = self.tete 
+                while current.suivant != None and current.suivant.valeur != item : 
+                    current = current.suivant 
+                current.suivant = current.suivant.suivant 
+                    
     
     def find (self, item) : 
-        pass 
+        if self.tete == None or item not in self : 
+            return repr (None)
+        index = 0 
+        for i in self : 
+            if i == item : 
+                return index
+            index += 1
     
     def reverse (self) : 
         pass 
     
-    def sort (self) : 
-        pass
    
 if __name__ == "__main__" :
     chaine = ListeChainee (Noeud (1, Noeud (2, Noeud (4, Noeud (5)))))
     chainette = ListeChainee (Noeud(0, Noeud(-1, Noeud(-2))))
-    print ([1,2,3,4,55] + chaine)
+    chaine + chainette
+    print (chaine)
+    chaine.supprimer (-2)
+    print (chaine)
     
