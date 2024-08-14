@@ -53,22 +53,35 @@ class ListDoublementChainee :
             self.ajouter (plus)    
         return self
     
-    def __radd__ (self) : 
-        pass 
+    def __radd__ (self, plus) : 
+        self.insertion (plus)   
+        return self  
     
     def __getitem__ (self, index) : 
         if type (index) != int : 
             raise TypeError ("Erreur : TypeError (l'indice doit etre un entier)")  
         if not (-len(self) <= index < len (self)) : 
-                raise IndexError ("Error : index out of range !")
+            raise IndexError ("Error : index out of range !")
         if index < 0 : 
-                index += len (self) 
+            index += len (self) 
         for item in self : 
             if self.find (item) == index : 
                 return item 
     
     def __setitem__ (self, index, new) : 
-        pass
+        if type (index) != int : 
+            raise TypeError ("Erreur : TypeError (l'indice doit etre un entier)")  
+        if not (-len(self) <= index < len (self)) : 
+            raise IndexError ("Error : index out of range !")
+        if index < 0 : 
+            index += len (self) 
+        current = self.tete
+        for i in range (len (self)) : 
+            if current.valeur == self [index] : 
+                current.valeur = new
+                break
+            current = current.suivant
+            
     
     def __delitem__ (self, index) : 
         pass 
@@ -83,7 +96,29 @@ class ListDoublementChainee :
             self.queue = ele
     
     def insertion (self, item, index = 0) : 
-        pass
+        ele = Noeud (item)
+        if self.tete != None :
+            if not (-len(self) -1 <= index <= len (self)) : 
+                raise IndexError ("Error : index out of range !")
+            if index < 0 : 
+                index += (len (self) + 1)
+            if index == 0 :
+                ele.suivant, self.tete = self.tete, ele
+            elif index == len(self) : 
+                self.queue.suivant = ele
+                self.queue = ele 
+            else : 
+                current = self.tete 
+                compteur = 1
+                while current.suivant != None or compteur != index :
+                    if compteur == index : 
+                        ele.suivant, current.suivant = current.suivant, ele 
+                        break
+                    current = current.suivant 
+                    compteur += 1
+        else : 
+            self.tete = ele 
+            self.queue = ele             
     
     def find (self, item) : 
         if self.tete == None or item not in self : 
@@ -111,5 +146,5 @@ if __name__ == "__main__" :
     chainette.ajouter (8)
     print (chainette)
     print (chaine + chainette)
-    print (chaine.find (7))
-    print (chaine[3])
+    
+    
