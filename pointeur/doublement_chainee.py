@@ -41,14 +41,31 @@ class ListDoublementChainee :
             compteur += 1
         return compteur 
     
-    def __add__ (self) : 
-        pass
+    def __add__ (self, plus) : 
+        if type(plus) == ListDoublementChainee and plus.tete != None: 
+            if self.tete != None : 
+                self.queue.suivant = plus.tete
+                self.queue = plus.queue
+            else : 
+                self.tete = plus.tete
+                self.queue = plus.queue 
+        else : 
+            self.ajouter (plus)    
+        return self
     
     def __radd__ (self) : 
         pass 
     
     def __getitem__ (self, index) : 
-        pass 
+        if type (index) != int : 
+            raise TypeError ("Erreur : TypeError (l'indice doit etre un entier)")  
+        if not (-len(self) <= index < len (self)) : 
+                raise IndexError ("Error : index out of range !")
+        if index < 0 : 
+                index += len (self) 
+        for item in self : 
+            if self.find (item) == index : 
+                return item 
     
     def __setitem__ (self, index, new) : 
         pass
@@ -65,11 +82,17 @@ class ListDoublementChainee :
             self.queue.suivant = ele
             self.queue = ele
     
-    def insertion (self, index, valeur) : 
-        pass 
+    def insertion (self, item, index = 0) : 
+        pass
     
     def find (self, item) : 
-        pass 
+        if self.tete == None or item not in self : 
+            return repr (None)
+        index = 0 
+        for i in self : 
+            if i == item : 
+                return index
+            index += 1 
     
     def reverse (self) : 
         pass 
@@ -82,5 +105,11 @@ if __name__ == "__main__" :
     chaine.ajouter(2)
     chaine.ajouter(1)
     print (chaine)
-    for i in chaine : 
-        print (i)
+    chainette = ListDoublementChainee ()
+    chainette.ajouter (6)
+    chainette.ajouter (7)
+    chainette.ajouter (8)
+    print (chainette)
+    print (chaine + chainette)
+    print (chaine.find (7))
+    print (chaine[3])
