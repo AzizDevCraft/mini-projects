@@ -78,6 +78,20 @@ class ListeChainee :
         for item in self : 
             if self.find (item) == index : 
                 return item
+    
+    def __setitem__ (self, index, new) : 
+        if type (index) != int : 
+            raise TypeError ("Erreur : TypeError (l'indice doit etre un entier)")  
+        if not (-len(self) <= index < len (self)) : 
+            raise IndexError ("Error : index out of range !")
+        if index < 0 : 
+            index += len (self) 
+        current = self.tete
+        for i in range (len (self)) : 
+            if current.valeur == self [index] : 
+                current.valeur = new
+                break
+            current = current.suivant
              
     def ajouter (self, valeur) : 
         ele = Noeud (valeur)
@@ -130,7 +144,6 @@ class ListeChainee :
                     current = current.suivant 
                 current.suivant = current.suivant.suivant 
                     
-    
     def find (self, item) : 
         if self.tete == None or item not in self : 
             return repr (None)
@@ -144,7 +157,8 @@ class ListeChainee :
         new = ListeChainee ()
         for i in range (len(self)-1, -1, -1) :
             new.ajouter (self[i])
-        return new 
+        self.tete = new.tete
+        return self
             
 
 if __name__ == "__main__" :
