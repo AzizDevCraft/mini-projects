@@ -14,11 +14,7 @@ class Abr :
         if n == None : 
             return ""
         return self.afficher (n.gauche) + str (n.valeur) + " " + self.afficher (n.droite)
-    
-    def __iter__ (self) : 
-        """parcourt infixe"""
 
-    
     def ajouter (self, valeur) : 
         ele = cellule (valeur)
         if self.racine == None : 
@@ -70,6 +66,10 @@ class Abr :
         return current 
     
     def sucesseur (self, noeud) : 
+        print (self.maxi (self.racine) == noeud)
+        if self.maxi (self.racine) == noeud : 
+            print ("il a pas de successeur")
+            return noeud
         if noeud.droite != None : 
             return self.mini(noeud.droite)
         else : 
@@ -78,8 +78,25 @@ class Abr :
                 current = current.pere
             return current.pere 
     
-    def supression (self) : 
-        pass 
+    def supression (self, val) : 
+        noeud = self.find (val)
+        if noeud != None :
+            if noeud.gauche == None or noeud.droite == None : 
+                if noeud.gauche == None : 
+                    t = noeud.droite
+                else : 
+                    t = noeud.gauche 
+                p = noeud.pere 
+                if p.gauche == noeud : 
+                    p.gauche = t
+                else : 
+                    p.droite = t
+                if t != None : 
+                    t.pere = p
+            else : 
+                suiv = self.sucesseur (noeud)
+                noeud.valeur = suiv.valeur
+                self.supression_noeud (suiv)
     
     def mirroir (self, noeud) : 
         if noeud != None : 
@@ -94,8 +111,13 @@ class Abr :
             return noeud.valeur 
         return self.sum_feuille (noeud.gauche) + self.sum_feuille (noeud.droite)          
     
-    def sum_noeud (self) : 
-        pass
+    def sum_noeud (self, min, max, noeud) :
+        if noeud == None : 
+            return 0 
+        if min <= noeud.valeur <= max : 
+            return noeud.valeur + self.sum_noeud (min, max, noeud.gauche) + self.sum_noeud (min, max, noeud.droite) 
+        else : 
+            return self.sum_noeud (min, max, noeud.gauche) + self.sum_noeud (min, max, noeud.droite)  
     
     def is_abr (self) : 
         pass 
@@ -109,6 +131,5 @@ if __name__ == "__main__" :
     arbre.ajouter (9)
     arbre.ajouter (3)
     print (arbre.afficher (arbre.racine))
-    arbre.mirroir (arbre.racine)
-    print (arbre.afficher (arbre.racine))
-    print (arbre.sum_feuille (arbre.racine))
+    print (arbre.sucesseur (arbre.find (9)).valeur)
+    print (arbre.sum_noeud (2, 6, arbre.racine))
