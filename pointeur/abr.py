@@ -17,7 +17,7 @@ class Abr :
     
     def __iter__ (self) : 
         """parcourt infixe"""
-    
+
     
     def ajouter (self, valeur) : 
         ele = cellule (valeur)
@@ -43,16 +43,31 @@ class Abr :
                         current = current.gauche
     
     def find (self, item) :
-        pass 
-    
+        current = self.racine
+        while current != None and current.valeur != item : 
+            if item < current.valeur : 
+                current = current.gauche
+            else : 
+                current = current.droite 
+        return current 
+
     def __contains__ (self, item) :
-        pass
+        resultat = self.find (item)
+        if type (resultat) == cellule : 
+            return True 
+        return False 
     
     def maxi (self, noeud) : 
-        pass
+        current = noeud 
+        while current.droite != None : 
+            current = current.droite 
+        return current 
     
     def mini (self, noeud) : 
-        pass 
+        current = noeud 
+        while current.gauche != None :
+            current = current.gauche 
+        return current 
     
     def sucesseur (self) : 
         pass 
@@ -81,3 +96,5 @@ if __name__ == "__main__" :
     arbre.ajouter (9)
     arbre.ajouter (3)
     print (arbre.afficher (arbre.racine))
+    print (arbre.maxi (arbre.racine).valeur)
+    print (arbre.mini (arbre.racine).valeur)
