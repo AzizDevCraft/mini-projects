@@ -69,20 +69,33 @@ class Abr :
             current = current.gauche 
         return current 
     
-    def sucesseur (self) : 
-        pass 
+    def sucesseur (self, noeud) : 
+        if noeud.droite != None : 
+            return self.mini(noeud.droite)
+        else : 
+            current = noeud 
+            while current.pere.valeur < noeud.valeur : 
+                current = current.pere
+            return current.pere 
     
     def supression (self) : 
         pass 
     
-    def mirroir (self) : 
-        pass 
+    def mirroir (self, noeud) : 
+        if noeud != None : 
+            self.mirroir (noeud.gauche)
+            self.mirroir (noeud.droite)
+            noeud.gauche, noeud.droite = noeud.droite, noeud.gauche
     
-    def sum_feuille (self) : 
-        pass 
+    def sum_feuille (self, noeud) : 
+        if noeud == None : 
+            return 0 
+        elif noeud.gauche == None and noeud.droite == None :
+            return noeud.valeur 
+        return self.sum_feuille (noeud.gauche) + self.sum_feuille (noeud.droite)          
     
     def sum_noeud (self) : 
-        pass 
+        pass
     
     def is_abr (self) : 
         pass 
@@ -96,5 +109,6 @@ if __name__ == "__main__" :
     arbre.ajouter (9)
     arbre.ajouter (3)
     print (arbre.afficher (arbre.racine))
-    print (arbre.maxi (arbre.racine).valeur)
-    print (arbre.mini (arbre.racine).valeur)
+    arbre.mirroir (arbre.racine)
+    print (arbre.afficher (arbre.racine))
+    print (arbre.sum_feuille (arbre.racine))
