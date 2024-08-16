@@ -119,8 +119,22 @@ class Abr :
         else : 
             return self.sum_noeud (min, max, noeud.gauche) + self.sum_noeud (min, max, noeud.droite)  
     
-    def is_abr (self) : 
-        pass 
+    def trouvemax (self, a) : 
+        if a == None or a.gauche == None or a.droite == None : 
+            return float("-inf")
+        return max (a.valeur, a.droite.valeur, a.gauche.valeur)
+    
+    def trouvemin (self, a) : 
+        if a == None or a.gauche == None or a.droite == None: 
+            return float("inf")
+        return min (a.valeur, a.droite.valeur, a.gauche.valeur)
+    
+    def is_abr (self, a) :
+        if a == None : 
+            return True
+        bool1 = self.trouvemax(a.gauche) < a.valeur < self.trouvemin(a.droite)
+        return bool1 and self.is_abr(a.gauche) and self.is_abr(a.droite)
+        
     
 if __name__ == "__main__" : 
     arbre = Abr ()
@@ -131,5 +145,7 @@ if __name__ == "__main__" :
     arbre.ajouter (9)
     arbre.ajouter (3)
     print (arbre.afficher (arbre.racine))
-    print (arbre.sucesseur (arbre.find (9)).valeur)
-    print (arbre.sum_noeud (2, 6, arbre.racine))
+    print (arbre.is_abr (arbre.racine))
+    arbre.mirroir (arbre.racine)    
+    print (arbre.is_abr (arbre.racine))
+    
