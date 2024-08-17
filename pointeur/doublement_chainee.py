@@ -99,7 +99,8 @@ class ListDoublementChainee :
             current = self.tete 
             while current.suivant != None and current.suivant.valeur != self [index] : 
                 current = current.suivant 
-            current.suivant = current.suivant.suivant  
+            current.suivant = current.suivant.suivant 
+            current.suivant.prec = current  
     
     def ajouter (self, value) : 
         ele = Noeud (value)
@@ -170,6 +171,9 @@ if __name__ == "__main__" :
     chainette.ajouter (7)
     chainette.ajouter (8)
     chaine + chainette
+    print (chaine)
+    
+    del chaine [3]
     print (chaine)
     
     
