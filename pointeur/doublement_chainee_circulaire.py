@@ -28,7 +28,10 @@ class ListDoublementChaineeCirculaire :
             i += 1
     
     def __contains__ (self, item) : 
-        pass 
+        for i in self : 
+            if i.valeur == item : 
+                return True
+        return False  
     
     def __len__ (self) : 
         return self._lengh 
@@ -40,7 +43,15 @@ class ListDoublementChaineeCirculaire :
         pass
     
     def __getitem__ (self, index) : 
-        pass
+        if type (index) != int : 
+            raise TypeError ("Erreur : TypeError (l'indice doit etre un entier)")  
+        if not (-len(self) <= index < len (self)) : 
+            raise IndexError ("Error : index out of range !")
+        if index < 0 : 
+            index += len (self) 
+        for item in self : 
+            if self.find (item.valeur) == index : 
+                return item.valeur 
     
     def __setitem__ (self, index, new) : 
         pass
@@ -64,8 +75,14 @@ class ListDoublementChaineeCirculaire :
     def insert (self, value, index = 0) : 
         pass
     
-    def find (self, value) : 
-        pass 
+    def find (self, item) : 
+        if self.tete == None or item not in self : 
+            return repr (None)
+        index = 0 
+        for i in self : 
+            if i.valeur == item : 
+                return index
+            index += 1 
     
     def reverse (self) : 
         pass 
@@ -77,8 +94,9 @@ if __name__ == "__main__" :
     liste.ajouter (2)
     liste.ajouter (0)
     liste.ajouter (3)
-    liste.ajouter (5)
-    for i in liste : 
-        print (i.valeur)
-        
+    liste.ajouter (5) 
     print (liste)
+    print (len(liste))
+    print (0 in liste)
+    print (4 in liste)
+    print (liste[2])
