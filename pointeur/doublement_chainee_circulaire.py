@@ -37,10 +37,21 @@ class ListDoublementChaineeCirculaire :
         return self._lengh 
     
     def __add__ (self, plus) : 
-        pass
+        if type(plus) == ListDoublementChaineeCirculaire and plus.tete != None: 
+            if self.tete != None : 
+                self._lengh += len(plus)
+                self.tete.prec.suivant = plus.tete
+                plus.tete.prec.prec = self.tete 
+                plus.tete.prec = self.tete.prec
+            else : 
+                self.tete = plus.tete
+        else : 
+            self.ajouter (plus)    
+        return self
     
     def _radd__ (self, plus) : 
-        pass
+        self.insert (plus)   
+        return self 
     
     def __getitem__ (self, index) : 
         if type (index) != int : 
@@ -160,11 +171,11 @@ if __name__ == "__main__" :
     liste.ajouter (0)
     liste.ajouter (3)
     liste.ajouter (5) 
+    chaine = ListDoublementChaineeCirculaire ()
+    chaine.ajouter (6)
+    chaine.ajouter (7)
+    chaine.ajouter (8)
+    liste + chaine
     print (liste)
-    print (len(liste))
-    print (0 in liste)
-    print (4 in liste)
-    liste.insert (4,5)
-    print (liste)
-    del liste [-1]
-    print (liste)
+    for i in liste : 
+        print (i.valeur)
