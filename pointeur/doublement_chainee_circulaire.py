@@ -68,7 +68,27 @@ class ListDoublementChaineeCirculaire :
             current = current.suivant
     
     def __delitem__ (self, index) : 
-        pass
+        if type (index) != int : 
+            raise TypeError ("Erreur : TypeError (l'indice doit etre un entier)")  
+        if not (-len(self) <= index < len (self)) : 
+            raise IndexError ("Error : index out of range !")
+        if index < 0 : 
+            index += len (self) 
+        if index == 0 : 
+            self.tete.suivant.prec = self.tete.prec
+            self.tete = self.tete.suivant
+            self._lengh -= 1
+        elif index == len(self) - 1 :
+            self.tete.prec = self.tete.prec.prec
+            self.tete.prec.suivant = self.tete 
+            self._lengh -= 1
+        else : 
+            current = self.tete 
+            while current.suivant != None and current.suivant.valeur != self [index] : 
+                current = current.suivant 
+            current.suivant = current.suivant.suivant
+            current.suivant.prec = current  
+            self._lengh -= 1        
     
     def ajouter (self, value) : 
         ele = Noeud (value)
@@ -83,8 +103,38 @@ class ListDoublementChaineeCirculaire :
             self.tete.prec = ele
         self._lengh += 1 
     
-    def insert (self, value, index = 0) : 
-        pass
+    def insert (self, item, index = 0) : 
+        ele = Noeud (item)
+        if self.tete != None :
+            if not (-len(self) -1 <= index <= len (self)) : 
+                raise IndexError ("Error : index out of range !")
+            if index < 0 : 
+                index += (len (self) + 1)
+            if index == 0 :
+                ele.suivant  = self.tete
+                ele.prec = self.tete.prec
+                self.tete.prec = ele 
+                self.tete = ele
+            elif index == len(self) : 
+                self.ajouter (item)
+                self._lengh -= 1
+            else : 
+                current = self.tete 
+                compteur = 1
+                while current.suivant != None or compteur != index :
+                    if compteur == index : 
+                        ele.suivant  = current.suivant 
+                        current.suivant.prec = ele
+                        ele.prec = current
+                        current.suivant = ele
+                        break
+                    current = current.suivant 
+                    compteur += 1
+        else : 
+            self.tete = ele
+            ele.suivant = ele
+            ele.prec = ele
+        self._lengh += 1
     
     def find (self, item) : 
         if self.tete == None or item not in self : 
@@ -114,6 +164,7 @@ if __name__ == "__main__" :
     print (len(liste))
     print (0 in liste)
     print (4 in liste)
-    liste[3] = 4
-    liste [2] = 3
-    print (liste.reverse ())
+    liste.insert (4,5)
+    print (liste)
+    del liste [-1]
+    print (liste)
