@@ -9,18 +9,29 @@ class ListDoublementChaineeCirculaire :
     
     def __init__ (self, tete = None) : 
         self.tete = None 
+        self._lengh = 0
         
     def __str__ (self) : 
-        pass
-    
+        if self.tete == None : 
+            return repr (None)
+        ch = ""
+        for i in self : 
+            ch += f"{i.valeur} -> "
+        return ch [:-4]
+                
     def __iter__ (self) : 
-        pass
+        current = self.tete
+        i = 0 
+        while i < self._lengh : 
+            yield current
+            current = current.suivant
+            i += 1
     
     def __contains__ (self, item) : 
         pass 
     
     def __len__ (self) : 
-        pass
+        return self._lengh 
     
     def __add__ (self, plus) : 
         pass
@@ -38,7 +49,17 @@ class ListDoublementChaineeCirculaire :
         pass
     
     def ajouter (self, value) : 
-        pass
+        ele = Noeud (value)
+        if self.tete == None :
+            self.tete = ele
+            ele.suivant = ele
+            ele.prec = ele
+        else : 
+            self.tete.prec.suivant = ele
+            ele.suivant = self.tete
+            ele.prec = self.tete.prec
+            self.tete.prec = ele
+        self._lengh += 1 
     
     def insert (self, value, index = 0) : 
         pass
@@ -51,3 +72,13 @@ class ListDoublementChaineeCirculaire :
     
 if __name__ == "__main__" : 
     """espace reserve au testes !"""
+    liste = ListDoublementChaineeCirculaire ()
+    liste.ajouter (1)
+    liste.ajouter (2)
+    liste.ajouter (0)
+    liste.ajouter (3)
+    liste.ajouter (5)
+    for i in liste : 
+        print (i.valeur)
+        
+    print (liste)
