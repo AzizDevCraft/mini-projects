@@ -54,7 +54,18 @@ class ListDoublementChaineeCirculaire :
                 return item.valeur 
     
     def __setitem__ (self, index, new) : 
-        pass
+        if type (index) != int : 
+            raise TypeError ("Erreur : TypeError (l'indice doit etre un entier)")  
+        if not (-len(self) <= index < len (self)) : 
+            raise IndexError ("Error : index out of range !")
+        if index < 0 : 
+            index += len (self) 
+        current = self.tete
+        for i in range (len (self)) : 
+            if current.valeur == self [index] : 
+                current.valeur = new
+                break
+            current = current.suivant
     
     def __delitem__ (self, index) : 
         pass
@@ -85,7 +96,11 @@ class ListDoublementChaineeCirculaire :
             index += 1 
     
     def reverse (self) : 
-        pass 
+        new = ListDoublementChaineeCirculaire ()
+        for i in range (len(self)-1, -1, -1) :
+            new.ajouter (self[i])
+        self.tete = new.tete
+        return self  
     
 if __name__ == "__main__" : 
     """espace reserve au testes !"""
@@ -99,4 +114,6 @@ if __name__ == "__main__" :
     print (len(liste))
     print (0 in liste)
     print (4 in liste)
-    print (liste[2])
+    liste[3] = 4
+    liste [2] = 3
+    print (liste.reverse ())
