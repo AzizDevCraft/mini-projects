@@ -26,19 +26,18 @@ class Stack :
             self.top = node    
         self.size += 1
     
-    def pop (self) -> Union ["Node", None] : 
+    def pop (self) -> "Node" : 
+        if self.top is None :
+            raise ValueError ("Stack is empty") 
+        poped_node = self.top
+        self.top = self.top.next
+        self.size -= 1 
+        return poped_node
+        
+    def peek (self) -> Union [int, None] : 
         if self.top is not None : 
-            poped_node = self.top
-            if self.size > 1 : 
-                self.top, self.top.next = self.top.next, self.top.next.next
-            else : 
-                self.top = None 
-            self.size -= 1 
-            return poped_node
-        return None
-    
-    def peek (self) -> "Node" : 
-        pass  
+            return self.top.value
+        return self.top
     
 if __name__ == "__main__" : 
     pile = Stack ()
@@ -48,9 +47,9 @@ if __name__ == "__main__" :
     pile.push (10)
     pile.push (1)
     print (pile)
+    print (pile.peek ())
     print (pile.pop ().value)
     print (pile.pop ().value)
     print (pile)
     print (pile.pop ().value)
     print (pile)
-    print (pile.pop ())
