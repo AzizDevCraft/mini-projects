@@ -1,5 +1,6 @@
 # pile = stack 
 from dataclasses import dataclass
+from typing import Union
 
 @dataclass
 class Node : 
@@ -25,9 +26,16 @@ class Stack :
             self.top = node    
         self.size += 1
     
-    def pop (self) -> "Node" : 
-        pass
-            
+    def pop (self) -> Union ["Node", None] : 
+        if self.top is not None : 
+            poped_node = self.top
+            if self.size > 1 : 
+                self.top, self.top.next = self.top.next, self.top.next.next
+            else : 
+                self.top = None 
+            self.size -= 1 
+            return poped_node
+        return None
     
     def peek (self) -> "Node" : 
         pass  
@@ -40,5 +48,9 @@ if __name__ == "__main__" :
     pile.push (10)
     pile.push (1)
     print (pile)
-    print (len (pile))
-    print (pile.is_empty ())
+    print (pile.pop ().value)
+    print (pile.pop ().value)
+    print (pile)
+    print (pile.pop ().value)
+    print (pile)
+    print (pile.pop ())
