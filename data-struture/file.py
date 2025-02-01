@@ -16,8 +16,13 @@ class Queue :
     def __len__ (self) -> int : 
         return self.size
     
-    def enqueue (self, value) : 
-        pass 
+    def enqueue (self, value : int) : 
+        new_node = Node (value)
+        if self.tete is not None : 
+            self.queue.next = self.queue = new_node
+        else : 
+            self.tete = self.queue = new_node
+        self.size += 1 
     
     def dequeue (self) -> "Node" : 
         pass
@@ -27,3 +32,10 @@ class Queue :
     
     def is_empty (self) -> bool :
         pass
+    
+if __name__ == "__main__" : 
+    
+    file = Queue ()
+    file.enqueue (5)
+    file.enqueue (15)
+    print(file)
