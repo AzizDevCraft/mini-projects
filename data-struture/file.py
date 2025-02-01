@@ -24,8 +24,15 @@ class Queue :
             self.tete = self.queue = new_node
         self.size += 1 
     
-    def dequeue (self) -> "Node" : 
-        pass
+    def dequeue (self) -> "Node" :
+        if self.tete is None : 
+            raise ValueError ("Queue is empty") 
+        poped_node = self.tete
+        self.tete = self.tete.next
+        if self.tete is None : 
+            self.queue = None 
+        self.size -= 1 
+        return poped_node
     
     def peek (self) -> Union [int, None] : 
         pass 
@@ -39,3 +46,6 @@ if __name__ == "__main__" :
     file.enqueue (5)
     file.enqueue (15)
     print(file)
+    print (file.dequeue ().value)
+    print (file.dequeue ().value)
+    print (file)
