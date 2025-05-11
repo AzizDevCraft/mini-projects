@@ -17,6 +17,7 @@ class ListeChainee :
     def __init__ (self, tete = None) : 
         self.tete = tete
     
+    # affichage avec print 
     def __str__ (self) : 
         if self.tete == None :
             return repr(None)
@@ -27,30 +28,35 @@ class ListeChainee :
             ch += f"{current.valeur} -> "
         return ch [:-4]
     
+    def __repr__ (self) : 
+        return self.__str__ ()
+    
+    # l'utilisation avec boucle for (fonction parcourir)
     def __iter__ (self) : 
         if self.tete != None :  
             current = self.tete
             while current != None : 
                 yield current.valeur
                 current = current.suivant 
-           
+    
+    # fonction contain (utilisation de in)    
     def __contains__ (self, value) :
-        if self.tete != None : 
+        if self.tete != None :
             if self.tete.valeur == value : 
                 return True
-            current = self.tete
-            while current.suivant != None : 
-                current = current.suivant
-                if current.valeur == value : 
-                    return True
+            for _ in self : 
+                if value == _ : 
+                    return True 
         return False 
-
+        
+    # fonction len 
     def __len__ (self) : 
         compteur = 0
         for i in self : 
             compteur += 1
         return compteur 
     
+    # fonction de concatination de deux chaine avec l'opérateur '+'
     def __add__ (self, plus) : 
         if type(plus) == ListeChainee and plus.tete != None: 
             if self.tete != None : 
@@ -64,10 +70,12 @@ class ListeChainee :
             self.ajouter (plus)    
         return self 
     
+    # la partie concatination à gauche 
     def __radd__ (self, plus) : 
         self.insertion (plus)   
         return self  
     
+    # self [index]
     def __getitem__ (self, index) : 
         if type (index) != int : 
             raise TypeError ("Erreur : TypeError (l'indice doit etre un entier)")  
@@ -125,8 +133,7 @@ class ListeChainee :
                         ele.suivant, current.suivant = current.suivant, ele 
                         break
                     current = current.suivant 
-                    compteur += 1
-                    
+                    compteur += 1           
         else : 
             self.tete = ele 
     
@@ -164,10 +171,13 @@ class ListeChainee :
 if __name__ == "__main__" :
     """cette espace est réserver pour les testes"""
     chaine = ListeChainee (Noeud (1, Noeud (2, Noeud (4, Noeud (5)))))
+    print (3 in chaine)
+    chaine.insertion (3, 2)
     chainette = ListeChainee (Noeud(0, Noeud(-1, Noeud(-2))))
     chaine + chainette
     print (chaine)
     print (chaine.reverse ())
     print ([1,2,3] + chaine)
+    
     
     

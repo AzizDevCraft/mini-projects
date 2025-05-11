@@ -172,7 +172,6 @@ if __name__ == "__main__" :
     chainette.ajouter (8)
     chaine + chainette
     print (chaine)
-    
     del chaine [3]
     print (chaine)
     
